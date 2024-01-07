@@ -176,7 +176,7 @@
 </head>
 
 <body>
-    <h1>Welcome to Tafhim Educare</h1>
+    <h1>Welcome to Online Pathshala</h1>
 
     <form id="loginForm">
         <label for="username">Username:</label>
@@ -235,12 +235,14 @@
 
     <script>
         const users = [
-            { username: 'tafhim1', password: 't123' },
-            { username: 'tafhim2', password: 't225' },
-            { username: 'yeasib', password: 'y97' },
-            { username: 'mowmita', password: 'm98' },
-            { username: 'nishi', password: '23509191' },
-            { username: 'zihad', password: 'zdaiub' },
+            { username: 'tafhim1', password: 't123', permissions: { 'Math-03': ['serial-01','serial-02'], 'Java': ['serial-01', 'serial-02'], 'Java Project': ['serial-01'] } },
+            { username: 'tafhim2', password: 't225', permissions: { 'Java': ['serial-01'] } },
+            { username: 'yeasib', password: 'y97', permissions: { 'Math-03': ['serial-02'], 'Java': ['serial-02'], 'Java Project': ['serial-01'] } },
+            { username: 'nishi', password: '23509191', permissions: { 'Math-03': ['serial-02'], 'Java': ['serial-02'], 'Java Project': ['serial-01'] } },
+            { username: 'zihad', password: 'zdaiub', permissions: { 'Math-03': ['serial-02'], 'Java': ['serial-02'], 'Java Project': ['serial-01'] } },
+            { username: 'mowmita', password: 'm98', permissions: { 'Math-03': ['serial-02'], 'Java': ['serial-01'], 'Java Project': ['serial-01'] } },
+            
+            //Add here more permissions 
         ];
 
         function authenticateUser() {
@@ -252,17 +254,23 @@
             const user = users.find(u => u.username === usernameInput && u.password === passwordInput);
 
             if (user) {
-                document.getElementById('loginForm').style.display = 'none';
-                document.getElementById('videoPlayer').style.display = 'block';
+                const userPermissions = user.permissions[courseInput];
 
-                const video = document.getElementById('video');
-                const videoSource = document.getElementById('videoSource');
-                const videoSrc = generateVideoSource(courseInput, lectureInput);
+                if (userPermissions && userPermissions.includes(lectureInput)) {
+                    document.getElementById('loginForm').style.display = 'none';
+                    document.getElementById('videoPlayer').style.display = 'block';
 
-                if (videoSrc) {
-                    videoSource.setAttribute('src', videoSrc);
-                    video.load();
-                    video.play();
+                    const video = document.getElementById('video');
+                    const videoSource = document.getElementById('videoSource');
+                    const videoSrc = generateVideoSource(courseInput, lectureInput);
+
+                    if (videoSrc) {
+                        videoSource.setAttribute('src', videoSrc);
+                        video.load();
+                        video.play();
+                    }
+                } else {
+                    alert('You do not have permission to access this course and serial.');
                 }
             } else {
                 // Do nothing or handle the failure silently
