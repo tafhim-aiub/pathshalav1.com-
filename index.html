@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tafhim Educare</title>
+    <style>
+        body {
+            background-color: #f4f4f4;
+            margin: 0;
+            font-family: 'Helvetica', sans-serif;
+        }
+
+        #loginForm {
+            background-color: #ffffff;
+            padding: 20px;
+            text-align: center;
+            max-width: 400px;
+            margin: 0 auto;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            text-align: left;
+            color: #555;
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            margin-bottom: 10px;
+            width: calc(100% - 30px);
+            padding: 12px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .toggle-icon {
+            position: absolute;
+            top: 50%;
+            right: 5px;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+        .toggle-icon:hover {
+            color: #4caf50;
+        }
+
+        .dropdown-container {
+            display: flex;
+            gap: 10px;
+            justify-content: space-between;
+        }
+
+        #course,
+        #serial {
+            flex: 1;
+            margin-right: 5px;
+        }
+
+        #loginBtn,
+        #logoutBtn {
+            background-color: #4caf50;
+            color: white;
+            font-weight: bold;
+            padding: 12px;
+            display: inline-block;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border: none;
+            border-radius: 8px;
+            outline: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            animation: blink 1s infinite alternate;
+        }
+
+        #loginBtn:hover,
+        #logoutBtn:hover {
+            background-color: #45a049;
+        }
+
+        @keyframes blink {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0.5;
+            }
+        }
+
+        #videoPlayer {
+            display: none;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            margin-top: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        #video {
+            border: 1px solid #333;
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        #logoutBtn {
+            background-color: #e74c3c;
+            color: white;
+            font-weight: bold;
+            padding: 12px;
+            margin-top: 10px;
+            display: block;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border: none;
+            border-radius: 8px;
+            outline: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        #logoutBtn:hover {
+            background-color: #c0392b;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        #contactBtn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+            padding: 12px;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            outline: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        #contactPopup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #F0E68C;
+            /* khaki */
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Welcome to Tafhim Educare</h1>
+
+    <form id="loginForm">
+        <label for="username">Username:</label>
+        <div class="input-with-icon">
+            <input type="text" id="username" required>
+            <span class="toggle-icon" onclick="togglePasswordVisibility('username')">&#x1F441;</span>
+        </div>
+
+        <label for="password">Password:</label>
+        <div class="input-with-icon">
+            <input type="password" id="password" required>
+            <span class="toggle-icon" onclick="togglePasswordVisibility('password')">&#x1F441;</span>
+        </div>
+
+        <div class="dropdown-container">
+            <label for="course">Course:</label>
+            <select id="course" required>
+                <option value="None">None</option>
+                <option value="Math-03">Math-03</option>
+                <option value="Java">Java</option>
+                <option value="Java Project">Java Project</option>
+            </select>
+
+            <label for="serial">Serial:</label>
+            <select id="serial" required>
+                <option value="None">None</option>
+                <option value="serial-01">Serial-01</option>
+                <option value="serial-02">Serial-02</option>
+            </select>
+        </div>
+
+        <br> <!-- Line break added here -->
+
+        <button type="button" id="loginBtn" onclick="authenticateUser()">Login</button>
+        <button type="button" id="refreshBtn" onclick="refreshPage()">&#x21BB;</button>
+    </form>
+
+    <div id="videoPlayer">
+        <video id="video" width="640" height="360" controls controlsList="nodownload" preload="auto">
+            <source src="" id="videoSource" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <button type="button" id="logoutBtn" onclick="logout()">Logout</button>
+    </div>
+
+    <button type="button" id="contactBtn" onclick="showContactPopup()">Contact</button>
+
+    <div id="contactPopup">
+        <p>Owner: Tafhimul Islam</p>
+        <p>Email: <a href="mailto:tafhimul98@gmail.com">tafhimul98@gmail.com</a></p>
+        <p>WhatsApp: <a href="https://wa.me/qr/CFMGPAG5LP42E1" target="_blank">Send Message</a></p>
+        <button type="button" onclick="closeContactPopup()">Close</button>
+    </div>
+
+    <script>
+        const users = [
+            { username: 'tafhim1', password: 't123' },
+            { username: 'tafhim2', password: 't225' },
+            { username: 'yeasib', password: 'y97' },
+            { username: 'mowmita', password: 'm98' },
+            { username: 'nishi', password: '23509191' },
+        ];
+
+        function authenticateUser() {
+            const usernameInput = document.getElementById('username').value;
+            const passwordInput = document.getElementById('password').value;
+            const courseInput = document.getElementById('course').value;
+            const lectureInput = document.getElementById('serial').value;
+
+            const user = users.find(u => u.username === usernameInput && u.password === passwordInput);
+
+            if (user) {
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('videoPlayer').style.display = 'block';
+
+                const video = document.getElementById('video');
+                const videoSource = document.getElementById('videoSource');
+                const videoSrc = generateVideoSource(courseInput, lectureInput);
+
+                if (videoSrc) {
+                    videoSource.setAttribute('src', videoSrc);
+                    video.load();
+                    video.play();
+                }
+            } else {
+                // Do nothing or handle the failure silently
+            }
+        }
+
+        function stopVideo() {
+            const video = document.getElementById('video');
+            video.pause();
+            video.currentTime = 0;
+        }
+
+        function logout() {
+            stopVideo();
+            document.getElementById('videoPlayer').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
+
+        function showContactPopup() {
+            document.getElementById('contactPopup').style.display = 'block';
+        }
+
+        function closeContactPopup() {
+            document.getElementById('contactPopup').style.display = 'none';
+        }
+
+        function generateVideoSource(course, lecture) {
+            const courseMap = {
+                'Math-03': {
+                    'serial-01': 'm3lect-01.mp4',
+                    'serial-02': 'm3lect-02.mp4',
+                },
+                'Java': {
+                    'serial-01': 'java Lecture-1.mp4',
+                    'serial-02': 'javalec02.mp4',
+                },
+                'Java Project': {
+                    'serial-01': 'Project final.mp4',
+                },
+                // Add more courses and lectures as needed
+            };
+
+            return courseMap[course] && courseMap[course][lecture];
+        }
+
+        function togglePasswordVisibility(fieldId) {
+            const passwordField = document.getElementById(fieldId);
+            const fieldType = passwordField.type === 'password' ? 'text' : 'password';
+            passwordField.type = fieldType;
+        }
+
+        function refreshPage() {
+            location.reload(true); // Reload the page, ignoring cache
+        }
+    </script>
+</body>
+
+</html>
