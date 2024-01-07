@@ -172,6 +172,22 @@
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
             border-radius: 12px;
         }
+
+        #subscriptionPopup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            outline: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
     </style>
 </head>
 
@@ -233,15 +249,19 @@
         <button type="button" onclick="closeContactPopup()">Close</button>
     </div>
 
+    <div id="subscriptionPopup">
+        You get 1 Month Subscription. To extend it, contact the author.
+    </div>
+
     <script>
         const users = [
-            { username: 'tafhim1', password: 't123', permissions: { 'Math-03': ['serial-01','serial-02'], 'Java': ['serial-01', 'serial-02'], 'Java Project': ['serial-01'] } },
+            { username: 'tafhim1', password: 't123', permissions: { 'Math-03': ['serial-01', 'serial-02'], 'Java': ['serial-01', 'serial-02'], 'Java Project': ['serial-01'] } },
             { username: 'tafhim2', password: 't225', permissions: { 'Java': ['serial-01'] } },
             { username: 'yeasib', password: 'y97', permissions: { 'Math-03': ['serial-02'], 'Java': ['serial-02'], 'Java Project': ['serial-01'] } },
             { username: 'nishi', password: '23509191', permissions: { 'Math-03': ['serial-02'], 'Java': ['serial-02'], 'Java Project': ['serial-01'] } },
             { username: 'zihad', password: 'zdaiub', permissions: { 'Math-03': ['serial-02'], 'Java': ['serial-02'], 'Java Project': ['serial-01'] } },
             { username: 'mowmita', password: 'm98', permissions: { 'Math-03': ['serial-02'], 'Java': ['serial-01'], 'Java Project': ['serial-01'] } },
-            
+
             //Add here more permissions 
         ];
 
@@ -269,6 +289,9 @@
                         video.load();
                         video.play();
                     }
+
+                    // Show subscription popup after successful login
+                    showSubscriptionPopup();
                 } else {
                     alert('You do not have permission to access this course and serial.');
                 }
@@ -325,6 +348,13 @@
 
         function refreshPage() {
             location.reload(true); // Reload the page, ignoring cache
+        }
+
+        function showSubscriptionPopup() {
+            document.getElementById('subscriptionPopup').style.display = 'block';
+            setTimeout(function () {
+                document.getElementById('subscriptionPopup').style.display = 'none';
+            }, 3000); // Hide the popup after 3 seconds
         }
     </script>
 </body>
