@@ -72,7 +72,7 @@
         }
 
         #loginBtn,
-        #logoutBtn {
+        #refreshBtn {
             background-color: #4caf50;
             color: white;
             font-weight: bold;
@@ -88,7 +88,7 @@
         }
 
         #loginBtn:hover,
-        #logoutBtn:hover {
+        #refreshBtn:hover {
             background-color: #45a049;
         }
 
@@ -167,7 +167,6 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background-color: #F0E68C;
-            /* khaki */
             padding: 20px;
             text-align: center;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
@@ -182,15 +181,17 @@
     <form id="loginForm">
         <label for="username">Username:</label>
         <div class="input-with-icon">
-            <input type="text" id="username" required>
+            <input type="text" id="username" required autocomplete="off">
             <span class="toggle-icon" onclick="togglePasswordVisibility('username')">&#x1F441;</span>
         </div>
 
         <label for="password">Password:</label>
         <div class="input-with-icon">
-            <input type="password" id="password" required>
+            <input type="password" id="password" required autocomplete="off">
             <span class="toggle-icon" onclick="togglePasswordVisibility('password')">&#x1F441;</span>
         </div>
+
+        <p style="color: red;">Note: Saving passwords is restricted for security reasons.</p>
 
         <div class="dropdown-container">
             <label for="course">Course:</label>
@@ -209,7 +210,7 @@
             </select>
         </div>
 
-        <br> <!-- Line break added here -->
+        <br>
 
         <button type="button" id="loginBtn" onclick="authenticateUser()">Login</button>
         <button type="button" id="refreshBtn" onclick="refreshPage()">&#x21BB;</button>
@@ -303,7 +304,6 @@
                 'Java Project': {
                     'serial-01': 'Project final.mp4',
                 },
-                // Add more courses and lectures as needed
             };
 
             return courseMap[course] && courseMap[course][lecture];
